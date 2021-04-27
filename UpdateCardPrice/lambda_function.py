@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # FileName: 	lambda_function
-# CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-04-27 23:34:08 +0900
+# CreatedDate:  2021-04-27 20:41:27 +0900 LastModified: 2021-04-28 08:46:39 +0900
 #
 
 
@@ -33,7 +32,7 @@ def lambda_handler(event, context):
         print(item)
         update_price(
             table,
-            item['Card'],
+            item['Name'],
             datetime.now().strftime('%Y-%m-%d'),
             get_price(item['URL']),
         )
@@ -49,7 +48,7 @@ def lambda_handler(event, context):
 def update_price(table, card: str, date: str, price: str) -> None:
     response = table.update_item(
         Key={
-            'Card': card
+            'Name': card
         },
         UpdateExpression="set Prices.#date=:p",
         ExpressionAttributeNames={
