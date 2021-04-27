@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-04-27 21:13:32 +0900
+# LastModified: 2021-04-27 23:23:45 +0900
 #
 
 
@@ -22,6 +22,8 @@ logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     table_name = getenv('table_name')
+    logger.info(f"table_name: {table_name}")
+
     resource = boto3.resource('dynamodb')
     table = resource.Table(table_name)
 
