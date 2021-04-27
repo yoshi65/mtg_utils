@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-04-27 23:23:45 +0900
+# LastModified: 2021-04-27 23:34:08 +0900
 #
 
 
@@ -32,6 +32,7 @@ def lambda_handler(event, context):
     for item in data['Items']:
         print(item)
         update_price(
+            table,
             item['Card'],
             datetime.now().strftime('%Y-%m-%d'),
             get_price(item['URL']),
