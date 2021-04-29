@@ -36,7 +36,7 @@ jobs:
         working-directory: ${{ env.WORKDIR }}
 
       - name: Update lambda function
-        run: aws lambda update-function-code --function-name ${{ env.FUNCTION_NAME }} --image-uri "${{ env.URI }}:latest"
+        run: aws lambda update-function-code --function-name ${{ env.FUNCTION_NAME }} --image-uri "${{ env.URI }}:latest" > /dev/null
         working-directory: ${{ env.WORKDIR }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
