@@ -16,7 +16,7 @@ env:
   URI: "${{ secrets.CONTAINER_REGISTRY_PATH }}/mtg-utils/insertcardinfo"
   WORKDIR: ./InsertCardInfo
 
-job:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
