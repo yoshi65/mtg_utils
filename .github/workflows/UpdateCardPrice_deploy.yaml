@@ -1,0 +1,44 @@
+name: UpdateCardPrice_deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - UpdateCardPrice/Dockerfile
+      - UpdateCardPrice/requirements.txt
+      - UpdateCardPrice/lambda_function.py
+      - .github/workflows/UpdateCardPrice_deploy.yaml
+
+env:
+  FUNCTION_NAME: update-card-price
+  TABLE_NAME: mtg_prices
+  URI: "${{ secrets.CONTAINER_REGISTRY_PATH }}/mtg-utils/updatecardprice"
+  WORKDIR: ./UpdateCardPrice
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to ECR
+        run: aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.CONTAINER_REGISTRY_PATH }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Build and push docker image
+        run: |
+          docker build --build-arg table_name=${{ env.TABLE_NAME }} -t ${{ env.URI }} .
+          docker push ${{ env.URI }}
+        working-directory: ${{ env.WORKDIR }}
+
+      - name: Update lambda function
+        run: aws lambda update-function-code --function-name ${{ env.FUNCTION_NAME }} --image-uri "${{ env.URI }}:latest" > /dev/null
+        working-directory: ${{ env.WORKDIR }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
