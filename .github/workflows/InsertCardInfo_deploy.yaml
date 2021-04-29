@@ -3,7 +3,7 @@ name: InsertCardInfo_deploy
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - InsertCardInfo/Dockerfile
       - InsertCardInfo/requirements.txt
