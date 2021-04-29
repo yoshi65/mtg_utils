@@ -8,7 +8,7 @@ on:
       - InsertCardInfo/Dockerfile
       - InsertCardInfo/requirements.txt
       - InsertCardInfo/lambda_function.py
-      - .github/workflows/InsertCardInfo.yaml
+      - .github/workflows/InsertCardInfo_deploy.yaml
 
 env:
   FUNCTION_NAME: insert-card-info
