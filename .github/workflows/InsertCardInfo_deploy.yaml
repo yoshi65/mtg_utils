@@ -1,0 +1,36 @@
+name: InsertCardInfo_deploy
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - InsertCardInfo/Dockerfile
+      - InsertCardInfo/requirements.txt
+      - InsertCardInfo/lambda_function.py
+      - .github/workflows/InsertCardInfo.yaml
+
+env:
+  FUNCTION_NAME: insert-card-info
+  TABLE_NAME: mtg_prices
+  URI: "${{ secrets.CONTAINER_REGISTRY_PATH }}/mtg-utils/insertcardinfo"
+  WORKDIR: ./InsertCardInfo
+
+job:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to ECR
+        run: aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ secrets.CONTAINER_REGISTRY_PATH }}
+
+      - name: Build and push docker image
+        run: |
+          docker build --build-arg table_name=${{ env.TABLE_NAME }} -t ${{ env.URI }} .
+          docker push ${{ env.URI }}
+        working-directory: ${{ env.WORKDIR }}
+
+      - name: Update lambda function
+        run: aws lambda update-function-code --function-name ${{ env.FUNCTION_NAME }} --image-uri "${{ env.URI }}:latest"
+        working-directory: ${{ env.WORKDIR }}
