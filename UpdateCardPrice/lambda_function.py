@@ -68,6 +68,6 @@ def get_price(url: str) -> str:
     data = BeautifulSoup(site.text, "html.parser")
     price = data.select('div.wg-wonder-price-summary div.contents b')[1].get_text()
     logger.info(f"get_price response: {url} -> {price}")
-    time.sleep(5)
+    time.sleep(1)
 
     return price
