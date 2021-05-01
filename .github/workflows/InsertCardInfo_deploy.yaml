@@ -31,7 +31,7 @@ jobs:
 
       - name: Build and push docker image
         run: |
-          docker build --build-arg table_name=${{ env.TABLE_NAME }} -t ${{ env.URI }} .
+          docker build --build-arg table_name=${{ env.TABLE_NAME }} --build-arg SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }} -t ${{ env.URI }} .
           docker push ${{ env.URI }}
         working-directory: ${{ env.WORKDIR }}
 

@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-04-28 14:33:02 +0900
+# LastModified: 2021-05-01 12:17:52 +0900
 #
 
 
@@ -33,11 +33,25 @@ def lambda_handler(event, context):
 
     if is_correct_url(name, url):
         insert_card_info(table, name, url)
+        payload = {
+            'attachments': [{
+                'color': '#D3D3D3',
+                'pretext': f'Inserted {name} to {table}',
+            }]
+        }
+        post_slack(payload)
         return {
             "statusCode": 200,
             "body": json.dumps({"message": f"Successfully insert {name} to {table_name}", }),
         }
     else:
+        payload = {
+            'attachments': [{
+                'color': '#EB3228',
+                'pretext': f'Failed to insert {name} to {table}',
+            }]
+        }
+        post_slack(payload)
         return {
             "statusCode": 400,
             "body": json.dumps({
@@ -75,3 +89,12 @@ def is_correct_url(name: str, url: str) -> bool:
     time.sleep(1)
 
     return name in site.text
+
+
+def post_slack(payload):
+    SLACK_WEBHOOK_URL = getenv['SLACK_WEBHOOK_URL']
+
+    try:
+        requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload))
+    except requests.exceptions.RequestException as e:
+        print(e)
