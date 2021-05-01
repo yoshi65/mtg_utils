@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-01 12:17:52 +0900
+# LastModified: 2021-05-01 12:30:44 +0900
 #
 
 
@@ -92,7 +92,7 @@ def is_correct_url(name: str, url: str) -> bool:
 
 
 def post_slack(payload):
-    SLACK_WEBHOOK_URL = getenv['SLACK_WEBHOOK_URL']
+    SLACK_WEBHOOK_URL = getenv('SLACK_WEBHOOK_URL')
 
     try:
         requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload))
