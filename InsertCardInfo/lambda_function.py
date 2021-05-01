@@ -3,11 +3,10 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-01 13:07:20 +0900
+# LastModified: 2021-05-01 13:11:59 +0900
 #
 
 
-import json
 import boto3
 from bs4 import BeautifulSoup
 import logging
@@ -31,25 +30,13 @@ def lambda_handler(event, context):
 
     url = generate_url(name)
     site = requests.get(url)
-    both_name = get_both_name(site)  # ja_name/en_name
 
     if is_correct_url(name, site):
+        both_name = get_both_name(site)  # ja_name/en_name
         insert_card_info(table, name, both_name, url)
-        payload = {
-            'attachments': [{
-                'color': '#D3D3D3',
-                'pretext': f'Inserted {both_name} to {table_name}',
-            }]
-        }
-        post_slack(payload)
+        return f'Inserted {both_name} to {table_name}'
     else:
-        payload = {
-            'attachments': [{
-                'color': '#EB3228',
-                'pretext': f'{name} is not found',
-            }]
-        }
-        post_slack(payload)
+        return f'{name} is not found'
 
 
 def generate_url(name: str) -> str:
@@ -84,12 +71,3 @@ def is_correct_url(name: str, site) -> bool:
 def get_both_name(site) -> str:
     data = BeautifulSoup(site.text, "html.parser")
     return data.select('h1.wg-title')[0].get_text()
-
-
-def post_slack(payload):
-    SLACK_WEBHOOK_URL = getenv('SLACK_WEBHOOK_URL')
-
-    try:
-        requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload))
-    except requests.exceptions.RequestException as e:
-        print(e)
