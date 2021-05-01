@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-01 12:30:44 +0900
+# LastModified: 2021-05-01 12:33:38 +0900
 #
 
 
@@ -36,7 +36,7 @@ def lambda_handler(event, context):
         payload = {
             'attachments': [{
                 'color': '#D3D3D3',
-                'pretext': f'Inserted {name} to {table}',
+                'pretext': f'Inserted {name} to {table_name}',
             }]
         }
         post_slack(payload)
@@ -48,7 +48,7 @@ def lambda_handler(event, context):
         payload = {
             'attachments': [{
                 'color': '#EB3228',
-                'pretext': f'Failed to insert {name} to {table}',
+                'pretext': f'Failed to insert {name} to {table_name}',
             }]
         }
         post_slack(payload)
