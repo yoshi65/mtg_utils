@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-01 12:52:54 +0900
+# LastModified: 2021-05-01 13:07:20 +0900
 #
 
 
@@ -42,24 +42,14 @@ def lambda_handler(event, context):
             }]
         }
         post_slack(payload)
-        return {
-            "statusCode": 200,
-            "body": json.dumps({"message": f"Successfully insert {both_name} to {table_name}", }),
-        }
     else:
         payload = {
             'attachments': [{
                 'color': '#EB3228',
-                'pretext': f'Failed to insert {both_name} to {table_name}',
+                'pretext': f'{name} is not found',
             }]
         }
         post_slack(payload)
-        return {
-            "statusCode": 400,
-            "body": json.dumps({
-                "message": f"Fail to insert {both_name} to {table_name} because generated url is not correct",
-            }),
-        }
 
 
 def generate_url(name: str) -> str:
