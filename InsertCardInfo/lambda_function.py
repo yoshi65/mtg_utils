@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-01 13:33:41 +0900
+# LastModified: 2021-05-02 11:09:31 +0900
 #
 
 
@@ -36,7 +36,6 @@ def lambda_handler(event, context):
         insert_card_info(table, name, both_name, url)
         return {"text": f'Inserted {both_name} to {table_name}'}
     else:
-        return f'{name} is not found'
         return {"text": f'{name} is not found'}
 
 
