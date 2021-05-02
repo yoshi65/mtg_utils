@@ -29,7 +29,7 @@ def lambda_handler(event, context):
     data = table.scan()
 
     for item in data['Items']:
-        print(item)
+        logger.info(f"item: {item}")
         update_price(
             table,
             item['Name'],
