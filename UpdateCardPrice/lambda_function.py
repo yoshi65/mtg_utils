@@ -45,7 +45,7 @@ def lambda_handler(event, context):
     }
 
 
-def update_price(table, card: str, date: str, price: str) -> None:
+def update_price(table, card: str, date: str, price: int) -> None:
     response = table.update_item(
         Key={
             'Name': card
@@ -66,7 +66,8 @@ def update_price(table, card: str, date: str, price: str) -> None:
 def get_price(url: str) -> str:
     site = requests.get(url)
     data = BeautifulSoup(site.text, "html.parser")
-    price = data.select('div.wg-wonder-price-summary div.contents b')[1].get_text()
+    price_str = data.select('div.wg-wonder-price-summary div.contents b')[1].get_text()
+    price = int(price_str.replace(",", ""))
     logger.info(f"get_price response: {url} -> {price}")
     time.sleep(1)
 
