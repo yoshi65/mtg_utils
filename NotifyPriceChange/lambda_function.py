@@ -23,7 +23,7 @@ def lambda_handler(event, context):
     resource = boto3.resource('dynamodb')
     table = resource.Table(table_name)
 
-    threshold = 0
+    threshold = 10
     attachments = list()
 
     data = table.scan()
