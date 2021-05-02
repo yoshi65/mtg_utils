@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-02 15:56:55 +0900
+# LastModified: 2021-05-02 16:05:53 +0900
 #
 
 
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
         result = get_diff_price(item)
         logger.info(f'result: {result}')
 
-        if over_threshold(result["percentage"]):
+        if over_threshold(result["percentage"], threshold):
             attachments.append(generate_attachment(item['both_name'], result, threshold))
 
     post_slack({'attachments': attachments})
