@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # FileName: 	lambda_function
-# CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-02 16:05:53 +0900
+# CreatedDate:  2021-04-27 20:41:27 +0900 LastModified: 2021-05-02 16:15:20 +0900
 #
 
 
@@ -46,8 +45,8 @@ def lambda_handler(event, context):
 
 def get_diff_price(item) -> dict:
     price = item['Prices']
-    start_price = int(price[min(price)])
-    recent_price = int(price[max(price)])
+    start_price = price[min(price)]
+    recent_price = price[max(price)]
     return {
         "percentage": (recent_price - start_price) / start_price,
         "start_price": start_price,
