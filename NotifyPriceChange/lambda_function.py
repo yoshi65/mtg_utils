@@ -70,7 +70,7 @@ def generate_attachment(name: str, result: dict, threshold: int) -> dict:
 
 
 def post_slack(payload):
-    SLACK_WEBHOOK_URL = getenv['SLACK_WEBHOOK_URL']
+    SLACK_WEBHOOK_URL = getenv('SLACK_WEBHOOK_URL')
 
     try:
         requests.post(SLACK_WEBHOOK_URL, data=json.dumps(payload))
