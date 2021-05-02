@@ -11,7 +11,7 @@ on:
       - .github/workflows/NotifyPriceChange_deploy.yaml
 
 env:
-  FUNCTION_NAME: norify-price-change
+  FUNCTION_NAME: notify-price-change
   TABLE_NAME: mtg_prices
   URI: "${{ secrets.CONTAINER_REGISTRY_PATH }}/mtg-utils/notifypricechange"
   WORKDIR: ./NotifyPriceChange
