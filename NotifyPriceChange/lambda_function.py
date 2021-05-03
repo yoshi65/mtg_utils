@@ -48,7 +48,7 @@ def get_diff_price(item) -> dict:
     start_price = int(price[min(price)])
     recent_price = int(price[max(price)])
     return {
-        "percentage": (recent_price - start_price) / start_price,
+        "percentage": 100 * (recent_price - start_price) / start_price,
         "start_price": start_price,
         "recent_price": recent_price
     }
@@ -63,7 +63,7 @@ def generate_attachment(name: str, result: dict, threshold: int) -> dict:
     blue = "#0000ff"
 
     return {
-        'color': red if result["percentage"] > threshold else blue,
+        'color': red if result["percentage"] >= threshold else blue,
         'pretext': f'{name} {result["percentage"]}%',
         'text': f'Price: {result["start_price"]} -> {result["recent_price"]}'
     }
