@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-08-08 10:46:07 +0900
+# LastModified: 2021-08-09 08:17:32 +0900
 #
 
 
@@ -31,7 +31,7 @@ def lambda_handler(event, context):
     url = generate_url(name)
     site = requests.get(url)
 
-    if is_correct_url(name, site):
+    if is_correct_url(name, site) and has_item(table, name):
         both_name = get_both_name(site)  # ja_name/en_name
         drop_card_info(table, name)
         return {"text": f'Dropped {both_name} to {table_name}'}
@@ -63,6 +63,10 @@ def drop_card_info(table, name: str) -> None:
 
 def is_correct_url(name: str, site) -> bool:
     return name in site.text
+
+
+def has_item(table, name: str) -> bool:
+    return 'Item' in table.get_item(Key={'Name': name})
 
 
 def get_both_name(site) -> str:
