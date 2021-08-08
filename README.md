@@ -14,6 +14,10 @@ Update card price to dynamoDB and daily invoked.
 
 Notify price change (threshold: 10%) to slack channel.
 
+## Drop card info
+
+Drop card info to dynamoDB table based on card name sent by slack slash command.
+
 ## Required secrets
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY

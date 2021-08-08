@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-08-08 10:09:12 +0900
+# LastModified: 2021-08-08 10:46:07 +0900
 #
 
 
@@ -34,7 +34,7 @@ def lambda_handler(event, context):
     if is_correct_url(name, site):
         both_name = get_both_name(site)  # ja_name/en_name
         drop_card_info(table, name)
-        return {"text": f'Inserted {both_name} to {table_name}'}
+        return {"text": f'Dropped {both_name} to {table_name}'}
     else:
         return {"text": f'{name} is not found'}
 
