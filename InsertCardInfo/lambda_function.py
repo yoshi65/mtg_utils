@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-05-02 11:09:31 +0900
+# LastModified: 2021-08-09 08:41:55 +0900
 #
 
 
@@ -50,7 +50,7 @@ def generate_url(name: str) -> str:
 
 def translate_name(name: str) -> str:
     """Not complete func"""
-    return name.replace(' ', '+').replace(',', '%2C')
+    return name.replace(' ', '+').replace(',', '%2C').replace('’', "'")
 
 
 def insert_card_info(table, name: str, both_name: str, url: str) -> None:
