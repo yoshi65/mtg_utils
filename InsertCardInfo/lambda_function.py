@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-08-09 08:41:55 +0900
+# LastModified: 2021-08-31 18:41:10 +0900
 #
 
 
@@ -22,8 +22,9 @@ def lambda_handler(event, context):
     table_name = getenv('table_name')
     logger.info(f"table_name: {table_name}")
 
-    name = parse_qs(event['body-json'])['text'][0].rstrip()
+    name, num = get_name_num(parse_qs(event['body-json'])['text'][0].rstrip())
     logger.info(f"name: {name}")
+    logger.info(f"num: {num}")
 
     resource = boto3.resource('dynamodb')
     table = resource.Table(table_name)
@@ -33,10 +34,17 @@ def lambda_handler(event, context):
 
     if is_correct_url(name, site):
         both_name = get_both_name(site)  # ja_name/en_name
-        insert_card_info(table, name, both_name, url)
+        insert_card_info(table, name, both_name, url, num)
         return {"text": f'Inserted {both_name} to {table_name}'}
     else:
         return {"text": f'{name} is not found'}
+
+
+def get_name_num(text: str):
+    split_text = text.rsplit(" ", 1)
+    name = split_text[0]
+    num = int(split_text[1])
+    return name, num
 
 
 def generate_url(name: str) -> str:
@@ -53,13 +61,14 @@ def translate_name(name: str) -> str:
     return name.replace(' ', '+').replace(',', '%2C').replace('’', "'")
 
 
-def insert_card_info(table, name: str, both_name: str, url: str) -> None:
+def insert_card_info(table, name: str, both_name: str, url: str, num: int) -> None:
     table.put_item(
         Item={
             'Name': name,
             'URL': url,
             'both_name': both_name,
-            'Prices': dict()
+            'Prices': dict(),
+            'Number': num,
         }
     )
 
