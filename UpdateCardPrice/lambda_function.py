@@ -66,7 +66,12 @@ def update_price(table, card: str, date: str, price: int) -> None:
 def get_price(url: str) -> str:
     site = requests.get(url)
     data = BeautifulSoup(site.text, "html.parser")
-    price_str = data.select('div.wg-wonder-price-summary div.contents b')[1].get_text()
+
+    if "wisdom" in url:
+        price_str = data.select('div.wg-wonder-price-summary div.contents b')[1].get_text()
+    elif "hareruya" in url:
+        price_str = data.select("div.col-xs-3")[2].get_text().replace('￥', '')
+
     price = int(price_str.replace(",", ""))
     logger.info(f"get_price response: {url} -> {price}")
     time.sleep(1)
