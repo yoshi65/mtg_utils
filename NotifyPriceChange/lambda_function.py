@@ -33,7 +33,7 @@ def lambda_handler(event, context):
         result = get_diff_price(item)
         logger.info(f'result: {result}')
 
-        if over_threshold(result["percentage"], threshold):
+        if over_threshold(result["percentage"], threshold) and item['Notify']:
             attachments.append(generate_attachment(item['both_name'], result, threshold))
 
     post_slack({'attachments': attachments})
