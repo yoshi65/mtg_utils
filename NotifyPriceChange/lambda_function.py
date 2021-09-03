@@ -7,6 +7,7 @@
 
 
 import boto3
+from datetime import datetime
 import json
 import logging
 from os import getenv
@@ -38,6 +39,12 @@ def lambda_handler(event, context):
 
     post_slack({'attachments': attachments})
 
+    if datetime.now().strftime('%a') == 'Mon':
+        total_price = calc_total_price(data['Items'])
+        post_slack({'attachments': {
+            'pretext': f'Current total price: {total_price}',
+        }})
+
     return {
         "statusCode": 200,
     }
@@ -67,6 +74,15 @@ def generate_attachment(name: str, result: dict, threshold: int) -> dict:
         'pretext': f'{name} {result["percentage"]}%',
         'text': f'Price: {result["start_price"]} -> {result["recent_price"]}'
     }
+
+
+def calc_total_price(items):
+    total_price = 0
+    for item in items:
+        prices = [item['Prices'][key] for key in item['Prices'].keys()]
+        if len(prices) != 0:
+            total_price += prices[-1] * item['Number']
+    return '{:,}'.format(total_price)
 
 
 def post_slack(payload):
