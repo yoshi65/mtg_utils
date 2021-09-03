@@ -3,7 +3,7 @@
 #
 # FileName: 	lambda_function
 # CreatedDate:  2021-04-27 20:41:27 +0900
-# LastModified: 2021-09-03 09:22:51 +0900
+# LastModified: 2021-09-03 17:55:25 +0900
 #
 
 
@@ -69,7 +69,7 @@ def insert_card_info(table, name: str, both_name: str, url: str, num: int) -> No
             'both_name': both_name,
             'Prices': dict(),
             'Number': num,
-            'Notify': False,
+            'Notify': False if num else True,
         }
     )
 
