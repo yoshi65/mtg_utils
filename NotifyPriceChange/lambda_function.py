@@ -34,7 +34,7 @@ def lambda_handler(event, context):
         result = get_diff_price(item)
         logger.info(f'result: {result}')
 
-        if over_threshold(result["percentage"], threshold) and item['Notify']:
+        if result and over_threshold(result["percentage"], threshold) and item['Notify']:
             attachments.append(generate_attachment(item['both_name'], result, threshold))
 
     post_slack({'attachments': attachments})
@@ -52,13 +52,16 @@ def lambda_handler(event, context):
 
 def get_diff_price(item) -> dict:
     price = item['Prices']
-    start_price = int(price[min(price)])
-    recent_price = int(price[max(price)])
-    return {
-        "percentage": 100 * (recent_price - start_price) / start_price,
-        "start_price": start_price,
-        "recent_price": recent_price
-    }
+    if len(price):
+        start_price = int(price[min(price)])
+        recent_price = int(price[max(price)])
+        return {
+            "percentage": 100 * (recent_price - start_price) / start_price,
+            "start_price": start_price,
+            "recent_price": recent_price
+        }
+    else:
+        return {}
 
 
 def over_threshold(percentage: float, threshold: int) -> bool:
