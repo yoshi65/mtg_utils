@@ -42,10 +42,10 @@ def lambda_handler(event, context):
     day_of_week = datetime.now().strftime('%a')
     logger.info(f"day of week: {day_of_week}")
 
-    if day_of_week == 'Tue':
+    if day_of_week == 'Mon':
         total_price = calc_total_price(data['Items'])
         logger.info(f"total price: {total_price}")
-        post_slack(generate_block(f'Current total price: {total_price}'))
+        post_slack(generate_block(f'Current total price: {total_price}円'))
 
     return {
         "statusCode": 200,
