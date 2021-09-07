@@ -44,6 +44,7 @@ def lambda_handler(event, context):
 
     if day_of_week == 'Tue':
         total_price = calc_total_price(data['Items'])
+        logger.info(f"total price: {total_price}")
         post_slack({'attachments': {
             'pretext': f'Current total price: {total_price}',
         }})
