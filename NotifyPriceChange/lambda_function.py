@@ -46,7 +46,7 @@ def lambda_handler(event, context):
         total_price = calc_total_price(data['Items'])
         logger.info(f"total price: {total_price}")
         post_slack({'attachments': {
-            'pretext': f'Current total price: {total_price}',
+            'text': f'Current total price: {total_price}',
         }})
 
     return {
