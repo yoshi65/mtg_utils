@@ -39,7 +39,10 @@ def lambda_handler(event, context):
 
     post_slack({'attachments': attachments})
 
-    if datetime.now().strftime('%a') == 'Mon':
+    day_of_week = datetime.now().strftime('%a')
+    logger.info(f"day of week: {day_of_week}")
+
+    if day_of_week == 'Tue':
         total_price = calc_total_price(data['Items'])
         post_slack({'attachments': {
             'pretext': f'Current total price: {total_price}',
