@@ -45,9 +45,7 @@ def lambda_handler(event, context):
     if day_of_week == 'Tue':
         total_price = calc_total_price(data['Items'])
         logger.info(f"total price: {total_price}")
-        post_slack({'attachments': {
-            'text': f'Current total price: {total_price}',
-        }})
+        post_slack(generate_block(f'Current total price: {total_price}'))
 
     return {
         "statusCode": 200,
@@ -90,6 +88,15 @@ def calc_total_price(items):
         if len(prices) != 0:
             total_price += prices[-1] * item['Number']
     return '{:,}'.format(total_price)
+
+
+def generate_block(text: str) -> dict:
+    return {"blocks": [{
+            "type": "section",
+            "text": {
+                "type": "plain_text",
+                "text": text
+            }}]}
 
 
 def post_slack(payload):
