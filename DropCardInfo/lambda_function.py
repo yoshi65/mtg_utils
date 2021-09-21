@@ -33,7 +33,7 @@ def lambda_handler(event, context):
 
     if is_correct_url(name, site) and has_item(table, name):
         both_name = get_both_name(site)  # ja_name/en_name
-        if has_item(table, name):
+        if not has_item(table, name):
             return {"text": f'{both_name} is not found'}
 
         drop_card_info(table, name)
