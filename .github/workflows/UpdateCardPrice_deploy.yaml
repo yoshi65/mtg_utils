@@ -40,7 +40,7 @@ jobs:
         run: |
           version=$(aws lambda update-function-code --function-name ${{ env.FUNCTION_NAME }} --image-uri "${{ env.URI }}:latest" --publish | jq -r .Version)
           echo "New version: $version"
-          aws lambda update-alias --function-name ${{ env.FUNCTION_NAME }} --name ${{ env.ALIAS }} --function-version ${version}
+          aws lambda update-alias --function-name ${{ env.FUNCTION_NAME }} --name ${{ env.ALIAS }} --function-version ${version} > /dev/null
         working-directory: ${{ env.WORKDIR }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
