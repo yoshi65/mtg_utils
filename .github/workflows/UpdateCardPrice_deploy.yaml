@@ -1,5 +1,4 @@
 name: UpdateCardPrice_deploy
-
 on:
   push:
     branches:
