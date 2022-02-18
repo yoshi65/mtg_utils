@@ -30,12 +30,13 @@ def lambda_handler(event, context):
 
     for item in data['Items']:
         logger.info(f"item: {item}")
-        update_price(
-            table,
-            item['Name'],
-            datetime.now().strftime('%Y-%m-%d'),
-            get_price(item['URL']),
-        )
+        if item['Name'] != 'Total price':
+            update_price(
+                table,
+                item['Name'],
+                datetime.now().strftime('%Y-%m-%d'),
+                get_price(item['URL']),
+            )
 
     return {
         "statusCode": 200,
