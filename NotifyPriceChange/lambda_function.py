@@ -91,7 +91,7 @@ def calc_total_price(items):
     total_price = 0
     for item in items:
         prices = [item['Prices'][key] for key in item['Prices'].keys()]
-        if len(prices) != 0:
+        if len(prices) != 0 and item['Name'] != 'Total price':
             total_price += prices[-1] * item['Number']
     return total_price
 
