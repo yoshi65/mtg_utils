@@ -75,6 +75,6 @@ def get_price(url: str) -> str:
 
     price = int(price_str.replace(",", ""))
     logger.info(f"get_price response: {url} -> {price}")
-    time.sleep(1)
+    time.sleep(0.5)
 
     return price
