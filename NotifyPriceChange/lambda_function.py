@@ -82,7 +82,7 @@ def generate_attachment(name: str, result: dict, threshold: int) -> dict:
 
     return {
         'color': red if result["percentage"] >= threshold else blue,
-        'pretext': f'{name} {result["percentage"]}%',
+        'pretext': f'{name} {result["percentage"]:.2f}%',
         'text': f'Price: {result["start_price"]} -> {result["recent_price"]}'
     }
 
