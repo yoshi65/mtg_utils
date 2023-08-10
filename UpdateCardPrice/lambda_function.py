@@ -67,7 +67,11 @@ def update_price(table, card: str, date: str, price: int) -> None:
 
 
 def get_price(url: str) -> str:
-    site = requests.get(url)
+    headers = {
+        'User-Agent': 'Mozilla/5.0'
+    }
+
+    site = requests.get(url=url, headers=headers)
     data = BeautifulSoup(site.text, "html.parser")
 
     if "wisdom" in url:
